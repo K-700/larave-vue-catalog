@@ -1,0 +1,21 @@
+query group($id: ID!, $itemsFirst: Int!, $itemsPage: Int!) {
+    group(id: $id) {
+        id
+        name
+        items(first: $itemsFirst, page: $itemsPage) {
+            paginatorInfo {
+                currentPage,
+                total,
+                lastPage
+            },
+            data {
+                id
+                name
+                description
+                marking
+                image
+                price
+            }
+        }
+    }
+}

@@ -1,17 +1,17 @@
 const mix = require('laravel-mix');
+const webpack = require('webpack')
+require('dotenv').config()
 
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel applications. By default, we are compiling the CSS
- | file for the application as well as bundling up all the JS files.
- |
- */
+let dotenvplugin = new webpack.DefinePlugin({
+    'process.env': {
+        GRAPHQL_ENDPOINT: JSON.stringify(process.env.GRAPHQL_ENDPOINT || 'http://localhost:80/graphql'),
+    }
+})
 
 mix.webpackConfig({
+    plugins: [
+        dotenvplugin,
+    ],
     module: {
         rules: [
             {

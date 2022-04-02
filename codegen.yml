@@ -1,0 +1,12 @@
+overwrite: true
+schema: "./storage/app/lighthouse-schema.graphql"
+documents:
+  - './graphql/group/*.graphql'
+generates:
+  ./graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-vue-apollo
+    config:
+      vueCompositionApiImportFrom: vue
