@@ -1,0 +1,22 @@
+type Query {
+    items: [Item!]! @paginate(maxCount: 100 defaultCount: 30)
+    item(id: ID @eq): Item @find
+    groups: [Group!]! @all
+    group(id: ID @eq): Group @find
+}
+
+type Item {
+    id: ID!
+    name: String!
+    description: String!
+    marking: String!
+    image: String!
+    price: Float!
+    group: Group! @belongsTo
+}
+
+type Group {
+    id: ID!
+    name: String!
+    items: [Item!]! @hasMany(type: PAGINATOR)
+}
