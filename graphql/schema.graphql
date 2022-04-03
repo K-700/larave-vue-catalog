@@ -3,6 +3,7 @@ type Query {
     item(id: ID @eq): Item @find
     groups: [Group!]! @all
     group(id: ID @eq): Group @find
+    search(searchQuery: String!): [Item!]!  @paginate(builder: "App\\GraphQL\\Queries\\Search")
 }
 
 type Item {

@@ -2,6 +2,7 @@ overwrite: true
 schema: "./storage/app/lighthouse-schema.graphql"
 documents:
   - './graphql/group/*.graphql'
+  - './graphql/search/*.graphql'
 generates:
   ./graphql/generated.ts:
     plugins:

@@ -1,0 +1,17 @@
+query searchItems($query: String!, $first: Int!, $page: Int!) {
+    search(searchQuery: $query, first: $first, page: $page) {
+        paginatorInfo {
+            currentPage,
+            total,
+            lastPage
+        },
+        data {
+            id,
+            name,
+            description,
+            image,
+            marking,
+            price
+        }
+    }
+}

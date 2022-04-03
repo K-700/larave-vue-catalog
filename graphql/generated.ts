@@ -125,6 +125,7 @@ export type Query = {
   groups: Array<Group>;
   item?: Maybe<Item>;
   items?: Maybe<ItemPaginator>;
+  search?: Maybe<ItemPaginator>;
 };
 
 
@@ -141,6 +142,13 @@ export type QueryItemArgs = {
 export type QueryItemsArgs = {
   first?: Scalars['Int'];
   page?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type QuerySearchArgs = {
+  first: Scalars['Int'];
+  page?: InputMaybe<Scalars['Int']>;
+  searchQuery: Scalars['String'];
 };
 
 /** Information about pagination using a simple paginator. */
@@ -191,6 +199,15 @@ export type GroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GroupsQuery = { __typename?: 'Query', groups: Array<{ __typename?: 'Group', id: string, name: string }> };
+
+export type SearchItemsQueryVariables = Exact<{
+  query: Scalars['String'];
+  first: Scalars['Int'];
+  page: Scalars['Int'];
+}>;
+
+
+export type SearchItemsQuery = { __typename?: 'Query', search?: { __typename?: 'ItemPaginator', paginatorInfo: { __typename?: 'PaginatorInfo', currentPage: number, total: number, lastPage: number }, data: Array<{ __typename?: 'Item', id: string, name: string, description: string, image: string, marking: string, price: number }> } | null };
 
 
 export const GroupDocument = gql`
@@ -269,3 +286,47 @@ export function useGroupsLazyQuery(options: VueApolloComposable.UseQueryOptions<
   return VueApolloComposable.useLazyQuery<GroupsQuery, GroupsQueryVariables>(GroupsDocument, {}, options);
 }
 export type GroupsQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GroupsQuery, GroupsQueryVariables>;
+export const SearchItemsDocument = gql`
+    query searchItems($query: String!, $first: Int!, $page: Int!) {
+  search(searchQuery: $query, first: $first, page: $page) {
+    paginatorInfo {
+      currentPage
+      total
+      lastPage
+    }
+    data {
+      id
+      name
+      description
+      image
+      marking
+      price
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchItemsQuery__
+ *
+ * To run a query within a Vue component, call `useSearchItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchItemsQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param variables that will be passed into the query
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useSearchItemsQuery({
+ *   query: // value for 'query'
+ *   first: // value for 'first'
+ *   page: // value for 'page'
+ * });
+ */
+export function useSearchItemsQuery(variables: SearchItemsQueryVariables | VueCompositionApi.Ref<SearchItemsQueryVariables> | ReactiveFunction<SearchItemsQueryVariables>, options: VueApolloComposable.UseQueryOptions<SearchItemsQuery, SearchItemsQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<SearchItemsQuery, SearchItemsQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<SearchItemsQuery, SearchItemsQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<SearchItemsQuery, SearchItemsQueryVariables>(SearchItemsDocument, variables, options);
+}
+export function useSearchItemsLazyQuery(variables: SearchItemsQueryVariables | VueCompositionApi.Ref<SearchItemsQueryVariables> | ReactiveFunction<SearchItemsQueryVariables>, options: VueApolloComposable.UseQueryOptions<SearchItemsQuery, SearchItemsQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<SearchItemsQuery, SearchItemsQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<SearchItemsQuery, SearchItemsQueryVariables>> = {}) {
+  return VueApolloComposable.useLazyQuery<SearchItemsQuery, SearchItemsQueryVariables>(SearchItemsDocument, variables, options);
+}
+export type SearchItemsQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<SearchItemsQuery, SearchItemsQueryVariables>;

@@ -11,6 +11,7 @@ nav.navbar.navbar-expand-md.navbar-dark.fixed-top.bg-dark
                         template(v-for="group in groups")
                             li
                                 router-link.dropdown-item(:to="{ name: 'Catalog', params: { id: group.id }}") {{ group.name }}
+            item-search
 main(role="main" class="flex-shrink-0")
     .container
         router-view(:key="$route.fullPath")
@@ -20,6 +21,7 @@ main(role="main" class="flex-shrink-0")
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 import { provideApolloClient, useResult } from '@vue/apollo-composable'
 import { useGroupsQuery } from "../../../graphql/generated";
+import ItemSearch from "../components/ItemSearch.vue";
 
 const httpLink = createHttpLink({
     uri: process.env.GRAPHQL_ENDPOINT,
